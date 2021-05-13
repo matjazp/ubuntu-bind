@@ -1,8 +1,8 @@
 FROM internetsystemsconsortium/bind9:9.16
 LABEL org.opencontainers.image.source="https://github.com/matjazp/ubuntu-bind"
-RUN apt-get -qqqy update && apt-get -qqqy install nano dnsutils iputils-ping ifupdown
-#RUN echo include "/etc/bind/named.conf.log"; >> /etc/bind/named.conf
-#RUN mkdir -p /var/log/bind
-#RUN chown bind:bind /var/log/bind
-#COPY --chown=root:bind named.conf.log /etc/bind/named.conf.log
-CMD [ "bash" ]
+RUN apt-get -qqy update && apt-get -qqy install dnsutils iputils-ping ifupdown  less nano
+COPY startup.sh  /startup.sh
+RUN chmod +x /startup.sh
+COPY --chown=root:bind named.conf.log /etc/named.conf.log
+ENTRYPOINT [ "./startup.sh"]
+CMD [ "/usr/bin/bash" ]
